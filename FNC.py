@@ -48,19 +48,20 @@ def enFNC(A):
 # Input: A (cadena) en notacion inorder
 # Output: B (cadena), Tseitin
 def Tseitin(A, letrasProposicionalesA):
-    letrasProposicionalesB = [chr(x) for x in range(256, 1200)]
+        letrasProposicionalesB = [chr(x) for x in range(256, 1200)]
     union = letrasProposicionalesA + letrasProposicionalesB
     assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB))), u"¡Hay letras proposicionales en común!"
     L = [] # Inicializamos lista de conjunciones
     Pila = [] # Inicializamos pila
     i = -1 # Inicializamos contador de variables nuevas
+    s = A[0]
     while len(A) > 0:
         if s in union and not Pila and Pila[-1] == '-':
             i += 1
             atomo = letrasProposicionalesB[i]
             Pila = Pila[:-1]
             Pila.append(atomo)
-            L.append(atomo = -s)
+            L.append(atomo + "=" + "-s")
             A = A[1:]
             if len(A) > 0:
                 s = A[0]
@@ -71,7 +72,7 @@ def Tseitin(A, letrasProposicionalesA):
             Pila = Pila[:len(Pila)-4]
             i += 1
             atomo = letrasProposicionalesB[i]
-            L.append(atomo = (vuw))
+            L.append(atomo + "=" + v + u + w)
             s = atomo
         else:
             Pila.append(s)
