@@ -66,7 +66,7 @@ def Clausula(C):
         s = C[0]
         if s == "-":
             l.append(s + C[1])
-            C = C[s:]
+            C = C[3:]
         else:
             l.append(s)
             C = C[2:]
