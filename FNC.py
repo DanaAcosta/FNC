@@ -12,43 +12,42 @@
 #                   p=(q>r)
 # Output: B (cadena), equivalente en FNC
 def enFNC(A):
-    assert (len(A) == 4 or len(A) == 7), u"Fórmula incorrecta!"
+    assert(len(A)==4 or len(A)==5), u"Fórmula incorrecta!"
     B = ''
     p = A[0]
     # print('p', p)
     if "-" in A:
         q = A[-1]
         # print('q', q)
-        B = "-" + p + "O-" + q + "Y" + p + "O" + q
+        B = "-"+p+"O-"+q+"Y"+p+"O"+q
     elif "Y" in A:
-        q = A[3]
+        q = A[2]
         # print('q', q)
-        r = A[5]
+        r = A[4]
         # print('r', r)
-        B = q + "O-" + p + "Y" + r + "O-" + p + "Y-" + q + "O-" + r + "O" + p
+        B = q+"O-"+p+"Y"+r+"O-"+p+"Y-"+q+"O-"+r+"O"+p
     elif "O" in A:
-        q = A[3]
+        q = A[2]
         # print('q', q)
-        r = A[5]
+        r = A[4]
         # print('r', r)
-        B = "-" + q + "O" + p + "Y-" + r + "O" + p + "Y" + q + "O" + r + "O-" + p
+        B = "-"+q+"O"+p+"Y-"+r+"O"+p+"Y"+q+"O"+r+"O-"+p
     elif ">" in A:
-        q = A[3]
+        q = A[2]
         # print('q', q)
-        r = A[5]
+        r = A[4]
         # print('r', r)
-        B = q + "O" + p + "Y-" + r + "O" + p + "Y-" + q + "O" + r + "O-" + p
+        B = q+"O"+p+"Y-"+r+"O"+p+"Y-"+q+"O"+r+"O-"+p
     else:
         print(u'Error enENC(): Fórmula incorrecta!')
 
     return B
 
-
 # Algoritmo de transformacion de Tseitin
 # Input: A (cadena) en notacion inorder
 # Output: B (cadena), Tseitin
 def Tseitin(A, letrasProposicionalesA):
-        letrasProposicionalesB = [chr(x) for x in range(256, 1200)]
+    letrasProposicionalesB = ['A', 'B', 'C', 'D', 'E', 'F']
     union = letrasProposicionalesA + letrasProposicionalesB
     assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB))), u"¡Hay letras proposicionales en común!"
     L = [] # Inicializamos lista de conjunciones
@@ -56,12 +55,12 @@ def Tseitin(A, letrasProposicionalesA):
     i = -1 # Inicializamos contador de variables nuevas
     s = A[0]
     while len(A) > 0:
-        if s in union and not Pila and Pila[-1] == '-':
+        if s in union and len(Pila) != 0 and Pila[-1] == '-':
             i += 1
             atomo = letrasProposicionalesB[i]
             Pila = Pila[:-1]
             Pila.append(atomo)
-            L.append(atomo + "=-" s)
+            L.append(atomo + "=" + "-" + s)
             A = A[1:]
             if len(A) > 0:
                 s = A[0]
@@ -84,11 +83,12 @@ def Tseitin(A, letrasProposicionalesA):
         atomo = Pila[-1]
     else:
         atomo = letrasProposicionalesB[i]
-        for X in L:
-            Y = X 
+    for X in L:
+            print(X)
+            Y = enFNC(X) 
             B += "Y"+Y
-            B = atomo + B
-            return B
+    B = atomo + B
+    return B
 
 
 # Subrutina Clausula para obtener lista de literales
@@ -107,12 +107,10 @@ def Clausula(C):
             C = C[2:]
     return l
 
-
 # Algoritmo para obtencion de forma clausal
 # Input: A (cadena) en notacion inorder en FNC
 # Output: L (lista), lista de listas de literales
 def formaClausal(A):
-    #  IMPLEMENTAR AQUI ALGORITMO FORMA CLAUSAL
     l = []
     i = 0
     while len(A) > 0:
